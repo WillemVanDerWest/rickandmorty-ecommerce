@@ -1,6 +1,8 @@
 import React, { Suspense, lazy, use, useEffect, useState } from "react";
 import { Character, Episode } from "../interfaces.ts";
 import { getEpisode } from "../apiCalls/rickandmortyAPI.tsx";
+import images from "../images/19.jpeg"
+import LoadImage from "./image.tsx";
 interface param {
   character: Character;
   incBasket: (character: Character) => void;
@@ -28,10 +30,11 @@ function CharacterCard({ character, incBasket }: param) {
     }else if(character.status === "unknown"){
       status="unknown";
     }
+
   return (
     <div className="card">
       <div>
-        <img className="img" src={character.image} alt={`Still of the character ${character.name}`}/>
+          <LoadImage character={character}/>
       </div>
       <div className="infoCard">
         <div className="section">

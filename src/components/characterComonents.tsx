@@ -1,5 +1,6 @@
 import React, { Suspense, useEffect, useState, lazy } from "react";
 import "../apiCalls/rickandmortyAPI.tsx";
+import RenderCards from "./characterCards.tsx"
 import {
   getAllCharacters,
   getCharacterPage,
@@ -80,7 +81,6 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
     );
   };
 
-  const RenderCards = lazy(()=> delay(import("../components/characterCards.tsx")));
 
   return (
     <div>
@@ -88,9 +88,7 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
       <div>{data ? `we got the data` : `searching...`}</div>
       <PageAnateComponent />
       <SearchInput handleSearch={handleSearch}/>
-        <Suspense fallback={<div>Loading...</div>}>
           <RenderCards basketAmount={basketAmount} data={data} incBasket={incBasket} key={1}/>
-        </Suspense>
       <PageAnateComponent />
     </div>
   );
@@ -98,7 +96,7 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
 
 function delay(promise){
   return new Promise(resolve=>{
-    setTimeout(resolve,2000)
+    setTimeout(resolve,5)
   }).then(()=> promise)
 }
 export default CharacterComponents;
