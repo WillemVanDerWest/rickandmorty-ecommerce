@@ -7,7 +7,7 @@ interface param{
 export default function SearchInput({handleSearch}:param){
 
     const handleSearchProp=(event:string)=>{
-        handleSearch(`?name=${event}`)
+        handleSearch(`name=${event}`)
     }
     return(
         <input type={`text`} placeholder={`start typing`} onChange={(event)=>handleSearchProp(event?.target.value)} />

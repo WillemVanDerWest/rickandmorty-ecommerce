@@ -4,6 +4,8 @@ import {
   getAllCharacters,
   getCharacterPage,
   getCharacterSearch,
+  getNextPage,
+  getPrevPage,
 } from "../apiCalls/rickandmortyAPI.tsx";
 import { Character, Info } from "../interfaces.ts";
 import Basket from "./basketComponent.tsx";
@@ -19,12 +21,14 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
   const initialCharacter: Character[] = [];
   const [data, setData] = useState<Array<Character>>(initialCharacter);
   const [pageData, setPageData] = useState<Info<any>>();
-  const nextLink = pageData?.info?.next;
+  const [searchInput, setSearchInput] = useState<string>()
+  const nextLink = pageData?.info?.next ||null
+  const prevLink = pageData?.info?.prev ||null
   const removeAll = nextLink?.slice(
     pageData?.info?.next?.search("=") + 1,
     nextLink.length
   );
-  const currentPageNumber = Number(removeAll) - 1;
+  const [currentPageNumber,setCurrentPageNumber] = useState<number>(1)
   function handleState(info: Info<any>){
     const characters = info.results;
     setData(characters ? characters : initialCharacter);
@@ -38,60 +42,63 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
     handleData();
   }, []);
 
-  async function handleNextPage(pageNumber: number) {
-    const info: Info<any> = await getCharacterPage(pageNumber);
-    handleState(info)
+  async function handleNextPage(pageLink: string) {
+      handleState(await getNextPage(pageLink))
+      setCurrentPageNumber(currentPageNumber+1)
   }
+
+  async function handlePrevPage(pageLink: string) {
+    handleState(await getPrevPage(pageLink))
+    setCurrentPageNumber(currentPageNumber-1)
+}
+
 
   async function handleSearch(search:string){
     console.log(`Your current search: ${search}`)
+    setSearchInput(search)
     const info: Info<any> = await getCharacterSearch(search);
     handleState(info)
+    setCurrentPageNumber(1)
   }
 
-  const RenderCards = () => {
-    const characters = data.map((character) => {
-      return (
-        <CharacterCard
-        incBasket={incBasket}
-        key={character.id}
-        character={character}
-      />
-      );
-    });
-    return <div className="cards">{characters}</div>;
-  };
+ 
 
   const PageAnateComponent = () => {
     return (
       <div>
-        <button
+        {prevLink === null ? '' : <button
           onClick={() =>
-            handleNextPage(
-              currentPageNumber === 1
-                ? currentPageNumber
-                : currentPageNumber - 1
-            )
+            handlePrevPage(prevLink)
           }
-        >{`<`}</button>
+        >{`<`}</button>}
+        
         <button>{currentPageNumber}</button>
-        <button
-          onClick={() => handleNextPage(currentPageNumber + 1)}
-        >{`>`}</button>
+        {nextLink === null ? '' : <button
+          onClick={() => handleNextPage(nextLink)}
+        >{`>`}</button>}
       </div>
     );
   };
+
+  const RenderCards = lazy(()=> delay(import("../components/characterCards.tsx")));
+
   return (
     <div>
-      
       <Basket basketAmount={basketAmount} />
       <div>{data ? `we got the data` : `searching...`}</div>
       <PageAnateComponent />
       <SearchInput handleSearch={handleSearch}/>
-      <RenderCards />
+        <Suspense fallback={<div>Loading...</div>}>
+          <RenderCards basketAmount={basketAmount} data={data} incBasket={incBasket} key={1}/>
+        </Suspense>
       <PageAnateComponent />
     </div>
   );
 }
 
+function delay(promise){
+  return new Promise(resolve=>{
+    setTimeout(resolve,2000)
+  }).then(()=> promise)
+}
 export default CharacterComponents;
