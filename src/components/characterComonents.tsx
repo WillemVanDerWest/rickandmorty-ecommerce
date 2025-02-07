@@ -3,16 +3,12 @@ import "../apiCalls/rickandmortyAPI.tsx";
 import RenderCards from "./characterCards.tsx"
 import {
   getAllCharacters,
-  getCharacterPage,
   getCharacterSearch,
   getNextPage,
   getPrevPage,
 } from "../apiCalls/rickandmortyAPI.tsx";
 import { Character, Info } from "../interfaces.ts";
-import Basket from "./basketComponent.tsx";
 import SearchInput from "./searchInput.tsx";
-import CharacterCard from "./characterCard.tsx";
-
 interface param {
   incBasket: (character: Character) => void;
   basketAmount: number;
@@ -25,10 +21,6 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
   const [searchInput, setSearchInput] = useState<string>()
   const nextLink = pageData?.info?.next ||null
   const prevLink = pageData?.info?.prev ||null
-  const removeAll = nextLink?.slice(
-    pageData?.info?.next?.search("=") + 1,
-    nextLink.length
-  );
   const [currentPageNumber,setCurrentPageNumber] = useState<number>(1)
   function handleState(info: Info<any>){
     const characters = info.results;
@@ -84,7 +76,6 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
 
   return (
     <div>
-      <Basket basketAmount={basketAmount} />
       <div>{data ? `we got the data` : `searching...`}</div>
       <PageAnateComponent />
       <SearchInput handleSearch={handleSearch}/>
@@ -92,11 +83,5 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
       <PageAnateComponent />
     </div>
   );
-}
-
-function delay(promise){
-  return new Promise(resolve=>{
-    setTimeout(resolve,5)
-  }).then(()=> promise)
 }
 export default CharacterComponents;
