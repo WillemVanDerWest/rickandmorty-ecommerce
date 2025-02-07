@@ -22,11 +22,13 @@ function CharacterComponents({ incBasket, basketAmount }: param) {
   const nextLink = pageData?.info?.next ||null
   const prevLink = pageData?.info?.prev ||null
   const [currentPageNumber,setCurrentPageNumber] = useState<number>(1)
+  const gayWilliam = "William is gay";
   function handleState(info: Info<any>){
     const characters = info.results;
     setData(characters ? characters : initialCharacter);
     setPageData(info);
   }
+
   useEffect(() => {
     async function handleData() {
       const info: Info<any> = await getAllCharacters();
