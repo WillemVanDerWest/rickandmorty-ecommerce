@@ -39,10 +39,23 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.26.8",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@types/jest": "^29.5.14",
+    "@types/testing-library__react": "^10.2.0",
     "autoprefixer": "^10.4.20",
+    "babel-jest": "^29.7.0",
     "postcss": "^8.5.1",
     "postcss-cli": "^11.0.0",
     "tailwindcss": "^4.0.3",
     "web-vitals": "^4.2.4"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    }
   }
 }

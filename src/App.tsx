@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from '../src/logo.svg';
 import './App.css';
 import CharacterComponents from '../src/components/characterComonents.tsx';
 import { Character } from './interfaces.ts';

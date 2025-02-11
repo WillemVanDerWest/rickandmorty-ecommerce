@@ -1,11 +1,5 @@
-import axios from 'axios'
-import '../interfaces.ts'
-import { Episode, Info } from '../interfaces.ts';
-
-interface searchPage{
-    search: string;
-    page?: number
-}
+import axios from "axios";
+import { Episode, Info } from "../interfaces";
 
 export async function getAllCharacters(){
     let data : Info<any>;
