@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Episode, Info } from "../interfaces";
-
+const hi = 'hi'
 export async function getAllCharacters(){
     let data : Info<any>;
     const link = process.env.REACT_APP_ALLCHARACTERS
