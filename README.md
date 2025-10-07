@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# Welcome to my Rick And Morty React site
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Start off by cloning the files
+
+## RUN THESE
+
+### git clone https://github.com/WillemVanDerWest/rickandmorty-ecommerce.git
+### npm install
+### npm start
+
+
 
 ## Available Scripts
 
